@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <radialGradient id="espressoGrad" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#3D2317"/>
+      <stop offset="100%" stop-color="#1A0F08"/>
+    </radialGradient>
+    <linearGradient id="goldRim" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E5B25D"/>
+      <stop offset="50%" stop-color="#C8872A"/>
+      <stop offset="100%" stop-color="#8C5318"/>
+    </linearGradient>
+    <linearGradient id="steamGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#C8872A" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFE4B5" stop-opacity="0.2"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Base Circular Badge -->
+  <circle cx="32" cy="32" r="30" fill="url(#espressoGrad)" stroke="url(#goldRim)" stroke-width="2.5"/>
+  <circle cx="32" cy="32" r="27.5" fill="none" stroke="#C8872A" stroke-width="0.8" stroke-opacity="0.4"/>
+
+  <!-- Rising Steam -->
+  <path d="M25 21 C23.5 17.5 27 15 25.5 11" fill="none" stroke="url(#goldRim)" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M32 19 C30.5 15.5 34 13 32.5 9" fill="none" stroke="#FFE4B5" stroke-width="2" stroke-linecap="round"/>
+  <path d="M39 21 C37.5 17.5 41 15 39.5 11" fill="none" stroke="url(#goldRim)" stroke-width="1.8" stroke-linecap="round"/>
+
+  <!-- Coffee Cup Body -->
+  <path d="M18 26 H46 C46 36.5 40 43 32 43 C24 43 18 36.5 18 26 Z" fill="#FAF6EF"/>
+
+  <!-- Cup Handle -->
+  <path d="M44 28 C49 28 51.5 31 50.5 35 C49.5 38 46 39 43 38.5" fill="none" stroke="#FAF6EF" stroke-width="2.8" stroke-linecap="round"/>
+
+  <!-- Dark Rich Espresso Surface -->
+  <ellipse cx="32" cy="26" rx="14" ry="3" fill="#2C1810"/>
+  <ellipse cx="32" cy="26" rx="11" ry="1.8" fill="#C8872A" opacity="0.65"/>
+
+  <!-- Saucer Underneath -->
+  <ellipse cx="32" cy="46" rx="17" ry="2.5" fill="url(#goldRim)"/>
+</svg>

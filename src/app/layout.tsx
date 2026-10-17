@@ -36,7 +36,11 @@ export const metadata: Metadata = {
     images: ["/images/real_hero.jpg"],
   },
   icons: {
-    icon: "/favicon.ico",
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    apple: "/apple-touch-icon.png",
   },
   other: {
     "theme-color": branding.colors.primary,

@@ -15,9 +15,24 @@ const InstagramSVG = () => (
         <stop offset="100%" stopColor="#bc1888" />
       </linearGradient>
     </defs>
-    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="url(#ig-footer-grad)" />
-    <path d="M12 7a5 5 0 1 0 0 10A5 5 0 0 0 12 7zm0 8a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" fill="white" />
-    <circle cx="17.5" cy="6.5" r="1.5" fill="white" />
+    <rect x="2.5" y="2.5" width="19" height="19" rx="5.5" stroke="url(#ig-footer-grad)" strokeWidth="2" fill="none" />
+    <circle cx="12" cy="12" r="4.2" stroke="url(#ig-footer-grad)" strokeWidth="2" fill="none" />
+    <circle cx="17.5" cy="6.5" r="1.3" fill="url(#ig-footer-grad)" />
+  </svg>
+);
+
+const MapsPinSVG = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#EA4335" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+    <circle cx="12" cy="10" r="3" />
+  </svg>
+);
+
+const DiningSVG = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E23744" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2" />
+    <path d="M7 2v20" />
+    <path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7" />
   </svg>
 );
 
@@ -439,7 +454,7 @@ export default function Footer() {
                   el.style.transform = "translateY(0)";
                 }}
               >
-                📍
+                <MapsPinSVG />
               </a>
 
               {/* Zomato Order */}
@@ -460,7 +475,6 @@ export default function Footer() {
                   justifyContent:  "center",
                   textDecoration:  "none",
                   transition:      "all 0.2s ease",
-                  fontSize:        "1rem",
                 }}
                 onMouseEnter={(e) => {
                   const el = e.currentTarget as HTMLAnchorElement;
@@ -475,7 +489,7 @@ export default function Footer() {
                   el.style.transform = "translateY(0)";
                 }}
               >
-                🍽️
+                <DiningSVG />
               </a>
             </div>
           </div>

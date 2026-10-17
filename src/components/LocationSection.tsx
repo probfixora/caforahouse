@@ -17,9 +17,9 @@ const InstagramIcon = () => (
         <stop offset="100%" stopColor="#bc1888" />
       </linearGradient>
     </defs>
-    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="url(#ig-loc-grad)" />
-    <path d="M12 7a5 5 0 1 0 0 10A5 5 0 0 0 12 7zm0 8a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" fill="white" />
-    <circle cx="17.5" cy="6.5" r="1.5" fill="white" />
+    <rect x="2.5" y="2.5" width="19" height="19" rx="5.5" stroke="url(#ig-loc-grad)" strokeWidth="2" fill="none" />
+    <circle cx="12" cy="12" r="4.2" stroke="url(#ig-loc-grad)" strokeWidth="2" fill="none" />
+    <circle cx="17.5" cy="6.5" r="1.3" fill="url(#ig-loc-grad)" />
   </svg>
 );
 
