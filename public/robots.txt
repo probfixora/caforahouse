@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://caforahouse.com/sitemap.xml

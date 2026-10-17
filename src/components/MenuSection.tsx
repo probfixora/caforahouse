@@ -2,404 +2,439 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { menu, settings } from "@/config/business";
+import { menu, settings, business } from "@/config/business";
 
-// Veg / Non-Veg dot indicators (FSSAI standard)
-const VegDot = () => (
+// FSSAI standard vegetarian / non-vegetarian indicator
+const VegDot = ({ isVeg }: { isVeg: boolean }) => (
   <span
-    aria-label="Vegetarian"
-    title="Vegetarian"
+    aria-label={isVeg ? "Vegetarian" : "Non-Vegetarian"}
+    title={isVeg ? "Vegetarian" : "Non-Vegetarian"}
     style={{
-      display:       "inline-flex",
-      alignItems:    "center",
-      justifyContent:"center",
-      width:         "14px",
-      height:        "14px",
-      border:        "1.5px solid #2E7D32",
-      borderRadius:  "2px",
-      flexShrink:    0,
-      marginTop:     "2px",
+      display:        "inline-flex",
+      alignItems:     "center",
+      justifyContent: "center",
+      width:          "15px",
+      height:         "15px",
+      border:         `1.5px solid ${isVeg ? "#2E7D32" : "#8B0000"}`,
+      borderRadius:   "3px",
+      flexShrink:     0,
+      marginTop:      "3px",
+      backgroundColor: "#fff",
     }}
   >
-    <span style={{ width: "8px", height: "8px", backgroundColor: "#2E7D32", borderRadius: "50%" }} />
+    <span
+      style={{
+        width:           "7px",
+        height:          "7px",
+        backgroundColor: isVeg ? "#2E7D32" : "#8B0000",
+        borderRadius:    "50%",
+      }}
+    />
   </span>
 );
 
-const vegItems = new Set([
-  "Café Latte","Cappuccino","Café Americano","Hot Chocolate","Masala Chai",
-  "Cold Brew","Iced Latte","Caramel Biscoff Shake","Specialty Coolers",
-  "Dimsums (Steamed)","Chilli Paneer (Dry/Gravy)","Veg Hakka Noodles","Veg Fried Rice","Crispy Spring Rolls",
-  "Pasta Arrabiata","Creamy White Sauce Pasta","Club Sandwich","Crispy Cheesy Fries",
-  "Brownie with Ice Cream","Chocolate Lava Cake","New York Cheesecake",
+// Verified non-veg items in existing menu
+const nonVegItems = new Set([
+  "Chicken Manchurian",
+  "Grilled Herb Chicken",
 ]);
 
 export default function MenuSection() {
   const [activeCategory, setActiveCategory] = useState(menu.categories[0].id);
-  const currentCategory = menu.categories.find((c) => c.id === activeCategory)!;
-
-  // Natural aspect ratio for each category image based on actual photo dimensions
-  const aspectRatios: Record<string, string> = {
-    "hot-brews":   "3/4",  // coffee.jpg is 1200×1600 (portrait)
-    "cold-drinks": "3/4",  // beverages.jpg is 1200×1600 (portrait)
-    "chinese":     "1/1",  // chinese.jpg is 1600×1600 (square)
-    "continental": "9/16", // mocktails.jpg is 900×1600
-    "desserts":    "9/16", // dessert.jpg is 360×640
-  };
-
-  const currentAspect = aspectRatios[activeCategory] ?? "4/3";
+  const currentCategory = menu.categories.find((c) => c.id === activeCategory) || menu.categories[0];
 
   return (
     <section
       id="menu"
+      className="section-padding"
       aria-labelledby="menu-heading"
       style={{ backgroundColor: "var(--color-surface)", overflow: "hidden" }}
     >
-      <div className="section-padding container-max">
-        {/* Label */}
-        <p className="section-label" style={{ textAlign: "center", marginBottom: "1rem" }}>
-          What We Serve
-        </p>
-
-        {/* Heading */}
-        <h2
-          id="menu-heading"
-          style={{
-            fontFamily:   "var(--font-display)",
-            fontWeight:   700,
-            fontSize:     "clamp(2rem, 4vw, 3rem)",
-            textAlign:    "center",
-            color:        "var(--color-primary)",
-            marginBottom: "0.75rem",
-          }}
-        >
-          Our Menu
-        </h2>
-
-        <div className="ornament-line" style={{ maxWidth: "360px", margin: "0 auto 3rem" }}>
-          <span>🍽️</span>
+      <div className="container-max">
+        {/* Section Header */}
+        <div style={{ textAlign: "center", marginBottom: "2.75rem" }}>
+          <p className="section-label" style={{ marginBottom: "0.75rem" }}>
+            Handcrafted Selection
+          </p>
+          <h2
+            id="menu-heading"
+            style={{
+              fontFamily:   "var(--font-display)",
+              fontWeight:   700,
+              fontSize:     "clamp(2.1rem, 4.5vw, 3.25rem)",
+              color:        "var(--color-primary)",
+              marginBottom: "1rem",
+              lineHeight:   1.15,
+            }}
+          >
+            Explore Our Menu
+          </h2>
+          <div className="ornament-line" style={{ maxWidth: "340px", margin: "0 auto" }}>
+            <span>🍽️</span>
+          </div>
         </div>
 
-        {/* Category Tabs */}
+        {/* ── Category Navigation Tabs ── */}
         <div
           role="tablist"
           aria-label="Menu categories"
           className="menu-tabs-row"
           style={{
             display:        "flex",
-            gap:            "0.5rem",
+            gap:            "0.625rem",
             flexWrap:       "wrap",
             justifyContent: "center",
             marginBottom:   "3rem",
           }}
         >
-          {menu.categories.map((cat) => (
-            <button
-              key={cat.id}
-              role="tab"
-              aria-selected={activeCategory === cat.id}
-              aria-controls={`tabpanel-${cat.id}`}
-              id={`tab-${cat.id}`}
-              onClick={() => setActiveCategory(cat.id)}
-              className="menu-tab-btn"
-              style={{
-                display:         "inline-flex",
-                alignItems:      "center",
-                gap:             "0.375rem",
-                padding:         "0.625rem 1.25rem",
-                borderRadius:    "999px",
-                border:          activeCategory === cat.id
-                  ? "2px solid var(--color-secondary)"
-                  : "2px solid rgba(44,24,16,0.15)",
-                backgroundColor: activeCategory === cat.id
-                  ? "var(--color-primary)"
-                  : "transparent",
-                color:           activeCategory === cat.id
-                  ? "var(--color-secondary)"
-                  : "var(--color-text-mid)",
-                fontWeight:      activeCategory === cat.id ? 700 : 500,
-                fontSize:        "0.875rem",
-                cursor:          "pointer",
-                transition:      "all 0.25s ease",
-                fontFamily:      "var(--font-body)",
-              }}
-            >
-              <span aria-hidden="true">{cat.emoji}</span>
-              {cat.name}
-            </button>
-          ))}
+          {menu.categories.map((cat) => {
+            const isSelected = activeCategory === cat.id;
+            return (
+              <button
+                key={cat.id}
+                role="tab"
+                aria-selected={isSelected}
+                aria-controls={`tabpanel-${cat.id}`}
+                id={`tab-${cat.id}`}
+                onClick={() => setActiveCategory(cat.id)}
+                className="menu-tab-btn"
+                style={{
+                  display:         "inline-flex",
+                  alignItems:      "center",
+                  gap:             "0.5rem",
+                  padding:         "0.65rem 1.35rem",
+                  borderRadius:    "999px",
+                  border:          isSelected
+                    ? "2px solid var(--color-primary)"
+                    : "1.5px solid rgba(44, 24, 16, 0.15)",
+                  backgroundColor: isSelected
+                    ? "var(--color-primary)"
+                    : "#fff",
+                  color:           isSelected
+                    ? "var(--color-secondary)"
+                    : "var(--color-text-mid)",
+                  fontWeight:      isSelected ? 700 : 500,
+                  fontSize:        "0.9rem",
+                  cursor:          "pointer",
+                  transition:      "all 0.25s ease",
+                  fontFamily:      "var(--font-body)",
+                  boxShadow:       isSelected
+                    ? "0 4px 14px rgba(44, 24, 16, 0.15)"
+                    : "0 2px 6px rgba(0, 0, 0, 0.04)",
+                }}
+              >
+                <span aria-hidden="true" style={{ fontSize: "1.05rem" }}>{cat.emoji}</span>
+                <span>{cat.name}</span>
+              </button>
+            );
+          })}
         </div>
 
-        {/* Category Panel — SPLIT LAYOUT */}
+        {/* ── Active Category Showcase & Items Panel ── */}
         <div
           key={activeCategory}
           role="tabpanel"
           id={`tabpanel-${activeCategory}`}
           aria-labelledby={`tab-${activeCategory}`}
         >
-          {/* Category showcase: natural-aspect image + info side-by-side */}
-          <div className="menu-showcase-grid">
-            {/* ── Image Column: full image, no aggressive crop ── */}
+          {/* Category Editorial Showcase Banner */}
+          <div
+            className="menu-showcase-grid"
+            style={{
+              backgroundColor: "#fff",
+              borderRadius:    "var(--radius-xl)",
+              border:          "1px solid rgba(200, 135, 42, 0.16)",
+              boxShadow:       "var(--shadow-sm)",
+              overflow:        "hidden",
+              marginBottom:    "2.5rem",
+            }}
+          >
+            {/* Real Dish Photography */}
             <div
-              className="menu-image-col"
               style={{
-                position:        "relative",
-                borderRadius:    "var(--radius-xl)",
-                overflow:        "hidden",
-                aspectRatio:     currentAspect,
-                maxHeight:       "420px",
-                backgroundColor: "var(--color-primary)",
-                boxShadow:       "0 8px 32px rgba(44,24,16,0.18)",
+                position:  "relative",
+                minHeight: "260px",
+                height:    "100%",
+                width:     "100%",
               }}
             >
-              {/* Blurred ambient background to fill letterbox gaps */}
+              <Image
+                src={currentCategory.image}
+                alt={`${currentCategory.name} specialty at Cafora House`}
+                fill
+                style={{ objectFit: "cover", objectPosition: "center" }}
+                sizes="(max-width: 768px) 100vw, 480px"
+                priority
+              />
               <div
                 style={{
                   position:   "absolute",
                   inset:      0,
-                  zIndex:     0,
-                  overflow:   "hidden",
-                  filter:     "blur(20px) brightness(0.45) saturate(1.2)",
-                  transform:  "scale(1.1)",
+                  background: "linear-gradient(to top, rgba(26,15,8,0.5) 0%, transparent 40%)",
                 }}
-              >
-                <Image
-                  src={currentCategory.image}
-                  alt=""
-                  fill
-                  aria-hidden="true"
-                  style={{ objectFit: "cover", objectPosition: "center" }}
-                  sizes="600px"
-                />
-              </div>
-
-              {/* Main image — object-contain ensures full dish visibility */}
-              <div style={{ position: "relative", zIndex: 1, width: "100%", height: "100%" }}>
-                <Image
-                  src={currentCategory.image}
-                  alt={`${currentCategory.name} at Cafora House`}
-                  fill
-                  style={{
-                    objectFit:      "contain",
-                    objectPosition: "center",
-                    padding:        "12px",
-                  }}
-                  sizes="(max-width: 768px) 100vw, 500px"
-                />
-              </div>
-
-              {/* Category badge overlay */}
+              />
               <div
                 style={{
-                  position:       "absolute",
-                  top:            "1rem",
-                  left:           "1rem",
-                  zIndex:         2,
-                  backgroundColor:"rgba(44,24,16,0.75)",
-                  backdropFilter: "blur(8px)",
-                  borderRadius:   "999px",
-                  padding:        "0.35rem 0.875rem",
-                  display:        "flex",
-                  alignItems:     "center",
-                  gap:            "0.375rem",
-                  border:         "1px solid rgba(200,135,42,0.4)",
+                  position:        "absolute",
+                  top:             "1rem",
+                  left:            "1rem",
+                  backgroundColor: "rgba(44, 24, 16, 0.82)",
+                  backdropFilter:  "blur(8px)",
+                  borderRadius:    "999px",
+                  padding:         "0.35rem 0.9rem",
+                  display:         "inline-flex",
+                  alignItems:      "center",
+                  gap:             "0.4rem",
+                  border:          "1px solid rgba(200, 135, 42, 0.35)",
                 }}
               >
-                <span style={{ fontSize: "1rem" }}>{currentCategory.emoji}</span>
+                <span>{currentCategory.emoji}</span>
                 <span
                   style={{
-                    fontFamily:    "var(--font-display)",
+                    fontSize:      "0.78rem",
                     fontWeight:    700,
-                    fontSize:      "0.8125rem",
                     color:         "var(--color-secondary)",
-                    letterSpacing: "0.02em",
+                    letterSpacing: "0.04em",
+                    textTransform: "uppercase",
                   }}
                 >
-                  {currentCategory.name}
+                  Featured Category
                 </span>
               </div>
             </div>
 
-            {/* ── Info Column ── */}
+            {/* Category Description & Craft Details */}
             <div
               style={{
-                display:       "flex",
-                flexDirection: "column",
-                justifyContent:"center",
-                gap:           "1.25rem",
+                padding:        "2rem 2.25rem",
+                display:        "flex",
+                flexDirection:  "column",
+                justifyContent: "center",
+                gap:            "1rem",
               }}
             >
-              {/* Category title */}
               <div>
-                <div style={{ fontSize: "2rem", marginBottom: "0.5rem" }} aria-hidden="true">
+                <span style={{ fontSize: "1.75rem", display: "block", marginBottom: "0.25rem" }}>
                   {currentCategory.emoji}
-                </div>
+                </span>
                 <h3
                   style={{
                     fontFamily:   "var(--font-display)",
                     fontWeight:   700,
-                    fontSize:     "clamp(1.6rem, 3vw, 2.2rem)",
+                    fontSize:     "clamp(1.6rem, 2.5vw, 2.1rem)",
                     color:        "var(--color-primary)",
-                    marginBottom: "0.5rem",
-                    lineHeight:   1.1,
+                    marginBottom: "0.4rem",
                   }}
                 >
                   {currentCategory.name}
                 </h3>
-                <p
-                  style={{
-                    color:      "var(--color-text-mid)",
-                    fontSize:   "0.95rem",
-                    lineHeight: 1.6,
-                  }}
-                >
+                <p style={{ fontSize: "0.95rem", color: "var(--color-text-mid)", lineHeight: 1.65, margin: 0 }}>
                   {currentCategory.description}
                 </p>
               </div>
 
-              {/* Specialty badges */}
+              {/* Quality & Preparation Tags */}
               <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
                 {[
-                  activeCategory === "hot-brews"    && "✦ Single Origin",
-                  activeCategory === "hot-brews"    && "✦ Artisan Roasted",
-                  activeCategory === "cold-drinks"  && "✦ Freshly Blended",
-                  activeCategory === "cold-drinks"  && "✦ Seasonal Specials",
-                  activeCategory === "chinese"      && "✦ Wok Tossed",
-                  activeCategory === "chinese"      && "✦ Chef Recommended",
-                  activeCategory === "continental"  && "✦ Freshly Baked",
-                  activeCategory === "continental"  && "✦ House Specials",
-                  activeCategory === "desserts"     && "✦ Freshly Made",
-                  activeCategory === "desserts"     && "✦ Sweet Indulgence",
+                  activeCategory === "hot-brews"   && "Single-Origin Beans",
+                  activeCategory === "hot-brews"   && "Precision Microfoam Art",
+                  activeCategory === "cold-drinks" && "Freshly Blended",
+                  activeCategory === "cold-drinks" && "Signature Thick Shakes",
+                  activeCategory === "chinese"     && "Steamed in Bamboo Baskets",
+                  activeCategory === "chinese"     && "Wok-Tossed on Order",
+                  activeCategory === "continental" && "Silky Parmesan Sauces",
+                  activeCategory === "continental" && "Toasted Herb Garlic Bread",
+                  activeCategory === "desserts"    && "Decadent & Fresh",
+                  activeCategory === "desserts"    && "Sweet Indulgence",
                 ]
                   .filter(Boolean)
-                  .map((badge) => (
+                  .map((tag) => (
                     <span
-                      key={badge as string}
+                      key={tag as string}
                       style={{
-                        backgroundColor: "rgba(200,135,42,0.1)",
-                        border:          "1px solid rgba(200,135,42,0.25)",
+                        backgroundColor: "rgba(200, 135, 42, 0.1)",
+                        border:          "1px solid rgba(200, 135, 42, 0.22)",
                         borderRadius:    "999px",
-                        padding:         "0.3rem 0.875rem",
-                        fontSize:        "0.8rem",
+                        padding:         "0.3rem 0.8rem",
+                        fontSize:        "0.78rem",
                         color:           "var(--color-secondary)",
                         fontWeight:      600,
                       }}
                     >
-                      {badge as string}
+                      ✦ {tag as string}
                     </span>
                   ))}
               </div>
 
-              {/* Item count */}
               <div
                 style={{
-                  backgroundColor: "rgba(44,24,16,0.05)",
-                  borderRadius:    "var(--radius-md)",
-                  padding:         "0.875rem 1.25rem",
-                  borderLeft:      "3px solid var(--color-secondary)",
+                  display:         "flex",
+                  alignItems:      "center",
+                  gap:             "0.5rem",
+                  fontSize:        "0.85rem",
+                  color:           "var(--color-text-light)",
+                  borderTop:       "1px solid rgba(44, 24, 16, 0.08)",
+                  paddingTop:      "0.85rem",
                 }}
               >
-                <p style={{ fontSize: "0.85rem", color: "var(--color-text-mid)", margin: 0 }}>
-                  <strong style={{ color: "var(--color-primary)" }}>
-                    {currentCategory.items.length} Signature Items
-                  </strong>
-                  {" "}available in this category
-                </p>
+                <span>✨</span>
+                <span>{currentCategory.items.length} signature dishes &amp; drinks in this collection</span>
               </div>
             </div>
           </div>
 
-          {/* Items grid */}
+          {/* ── Menu Items Grid ── */}
           <div className="menu-items-grid">
-            {currentCategory.items.map((item, idx) => {
-              const isVeg = vegItems.has(item.name);
+            {currentCategory.items.map((item) => {
+              const isVeg = !nonVegItems.has(item.name);
               return (
-                <div
+                <article
                   key={item.name}
                   style={{
                     backgroundColor: "#fff",
-                    borderRadius:    "var(--radius-md)",
-                    padding:         "1.125rem 1.375rem",
-                    border:          "1px solid rgba(200,135,42,0.1)",
+                    borderRadius:    "var(--radius-lg)",
+                    padding:         "1.35rem 1.5rem",
+                    border:          "1px solid rgba(200, 135, 42, 0.12)",
+                    boxShadow:       "var(--shadow-sm)",
                     display:         "flex",
-                    alignItems:      "flex-start",
-                    gap:             "0.875rem",
-                    transition:      "transform 0.25s ease, box-shadow 0.25s ease",
-                    animationDelay:  `${idx * 0.05}s`,
+                    flexDirection:   "column",
+                    gap:             "0.6rem",
+                    transition:      "all 0.25s ease",
                   }}
-                  onMouseEnter={e => {
-                    const el = e.currentTarget as HTMLDivElement;
-                    el.style.transform  = "translateY(-2px)";
-                    el.style.boxShadow  = "0 8px 24px rgba(44,24,16,0.1)";
-                    el.style.borderColor = "rgba(200,135,42,0.25)";
+                  onMouseEnter={(e) => {
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.transform = "translateY(-3px)";
+                    el.style.boxShadow = "var(--shadow-md)";
+                    el.style.borderColor = "rgba(200, 135, 42, 0.35)";
                   }}
-                  onMouseLeave={e => {
-                    const el = e.currentTarget as HTMLDivElement;
-                    el.style.transform  = "translateY(0)";
-                    el.style.boxShadow  = "none";
-                    el.style.borderColor = "rgba(200,135,42,0.1)";
+                  onMouseLeave={(e) => {
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.transform = "translateY(0)";
+                    el.style.boxShadow = "var(--shadow-sm)";
+                    el.style.borderColor = "rgba(200, 135, 42, 0.12)";
                   }}
                 >
-                  {/* Veg / Non-Veg dot */}
-                  <div style={{ paddingTop: "2px", flexShrink: 0 }}>
-                    <VegDot />
+                  <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "0.75rem" }}>
+                    <div style={{ display: "flex", alignItems: "flex-start", gap: "0.625rem" }}>
+                      <VegDot isVeg={isVeg} />
+                      <h4
+                        style={{
+                          fontFamily:   "var(--font-display)",
+                          fontWeight:   700,
+                          fontSize:     "1.05rem",
+                          color:        "var(--color-primary)",
+                          lineHeight:   1.3,
+                          margin:       0,
+                        }}
+                      >
+                        {item.name}
+                      </h4>
+                    </div>
+
+                    {settings.showPrices && item.price && (
+                      <span
+                        style={{
+                          fontFamily: "var(--font-display)",
+                          fontWeight: 700,
+                          fontSize:   "1.05rem",
+                          color:      "var(--color-secondary)",
+                          flexShrink: 0,
+                        }}
+                      >
+                        ₹{item.price}
+                      </span>
+                    )}
                   </div>
 
-                  <div style={{ flex: 1 }}>
-                    <h4
-                      style={{
-                        fontFamily:   "var(--font-display)",
-                        fontWeight:   700,
-                        fontSize:     "1rem",
-                        color:        "var(--color-primary)",
-                        marginBottom: "0.25rem",
-                      }}
-                    >
-                      {item.name}
-                    </h4>
-                    <p style={{ fontSize: "0.85rem", color: "var(--color-text-light)", lineHeight: 1.5 }}>
-                      {item.description}
-                    </p>
-                  </div>
-
-                  {settings.showPrices && item.price && (
-                    <span
-                      style={{
-                        fontFamily: "var(--font-display)",
-                        fontWeight: 700,
-                        fontSize:   "1rem",
-                        color:      "var(--color-secondary)",
-                        flexShrink: 0,
-                        paddingTop: "2px",
-                      }}
-                    >
-                      ₹{item.price}
-                    </span>
-                  )}
-                </div>
+                  <p
+                    style={{
+                      fontSize:   "0.875rem",
+                      color:      "var(--color-text-mid)",
+                      lineHeight: 1.55,
+                      margin:     0,
+                      paddingLeft:"1.55rem",
+                    }}
+                  >
+                    {item.description}
+                  </p>
+                </article>
               );
             })}
           </div>
         </div>
 
-        {/* Note about ordering */}
-        <p
+        {/* ── Order Online Callout Banner ── */}
+        <div
           style={{
-            textAlign: "center",
-            marginTop: "2.5rem",
-            fontSize:  "0.875rem",
-            color:     "var(--color-text-light)",
+            marginTop:       "3.5rem",
+            backgroundColor: "#fff",
+            borderRadius:    "var(--radius-xl)",
+            border:          "1px solid rgba(200, 135, 42, 0.2)",
+            padding:         "2rem 2.25rem",
+            display:         "flex",
+            alignItems:      "center",
+            justifyContent:  "space-between",
+            flexWrap:        "wrap",
+            gap:             "1.5rem",
+            boxShadow:       "var(--shadow-sm)",
           }}
         >
-          Menu subject to seasonal availability. For the full menu and pricing, visit us or{" "}
+          <div style={{ maxWidth: "600px" }}>
+            <h4
+              style={{
+                fontFamily:   "var(--font-display)",
+                fontWeight:   700,
+                fontSize:     "1.25rem",
+                color:        "var(--color-primary)",
+                marginBottom: "0.35rem",
+              }}
+            >
+              Enjoy Cafora House at Home or On the Go
+            </h4>
+            <p style={{ fontSize: "0.9rem", color: "var(--color-text-mid)", margin: 0, lineHeight: 1.6 }}>
+              Looking for fast takeaway or doorstep delivery? Browse our complete active menu with live item availability on Zomato.
+            </p>
+          </div>
+
           <a
-            href="https://www.zomato.com/lucknow/cafora-house-gomti-nagar/order"
+            href={business.contact.orderOnline}
             target="_blank"
             rel="noopener noreferrer"
-            style={{ color: "var(--color-secondary)", textDecoration: "none", fontWeight: 600 }}
+            id="menu-order-zomato-btn"
+            style={{
+              display:         "inline-flex",
+              alignItems:      "center",
+              gap:             "0.6rem",
+              backgroundColor: "var(--color-primary)",
+              color:           "var(--color-secondary)",
+              fontWeight:      700,
+              fontSize:        "0.925rem",
+              padding:         "0.875rem 1.85rem",
+              borderRadius:    "999px",
+              textDecoration:  "none",
+              border:          "2px solid var(--color-primary)",
+              transition:      "all 0.25s ease",
+              boxShadow:       "0 4px 16px rgba(44, 24, 16, 0.15)",
+              whiteSpace:      "nowrap",
+            }}
+            onMouseEnter={(e) => {
+              const el = e.currentTarget as HTMLAnchorElement;
+              el.style.backgroundColor = "var(--color-secondary)";
+              el.style.borderColor = "var(--color-secondary)";
+              el.style.color = "#fff";
+              el.style.transform = "translateY(-2px)";
+            }}
+            onMouseLeave={(e) => {
+              const el = e.currentTarget as HTMLAnchorElement;
+              el.style.backgroundColor = "var(--color-primary)";
+              el.style.borderColor = "var(--color-primary)";
+              el.style.color = "var(--color-secondary)";
+              el.style.transform = "translateY(0)";
+            }}
           >
-            order online ↗
+            <span>🍽️</span> Order on Zomato ↗
           </a>
-        </p>
+        </div>
       </div>
     </section>
   );

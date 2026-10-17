@@ -140,11 +140,11 @@ export const menu = {
       id: "continental",
       name: "Continental",
       emoji: "🍽️",
-      description: "Classic Western plates done with finesse",
-      image: "/images/real_mocktails.jpg",
+      description: "Classic Western plates crafted with culinary finesse",
+      image: "/images/real_continental.jpg",
       items: [
         { name: "Pasta Arrabiata",         description: "Penne in bold spicy tomato sauce with garlic and fresh basil", price: "" },
-        { name: "Creamy White Sauce Pasta", description: "Penne tossed in silky parmesan & herb cream sauce", price: "" },
+        { name: "Creamy White Sauce Pasta", description: "Penne tossed in silky parmesan & herb cream sauce with toasted garlic bread", price: "" },
         { name: "Grilled Herb Chicken",    description: "Tender herb-marinated fillet served with roasted sides", price: "" },
         { name: "Club Sandwich",           description: "Triple-decker layered with crispy veggies and signature spreads", price: "" },
         { name: "Crispy Cheesy Fries",     description: "Golden crisp french fries loaded with melted cheese sauce", price: "" },
@@ -166,16 +166,17 @@ export const menu = {
 };
 
 // ============================================================
-// GALLERY — 100% Real Google Maps Photos
+// GALLERY — 100% Real Verified Venue & Food Photos
 // ============================================================
 export const gallery = [
-  { src: "/images/real_hero.jpg",      alt: "Cafora House espresso bar and cafe interior with marble tables and velvet chairs", caption: "Artisan Coffee Bar & Lounge" },
-  { src: "/images/real_coffee.jpg",    alt: "Authentic latte art in ceramic cup on marble table with fresh flower vase", caption: "Handcrafted Latte Art" },
-  { src: "/images/real_chinese.jpg",   alt: "Steamed dimsums in authentic bamboo basket with spicy dipping sauce", caption: "Steamed Dimsums in Bamboo Steamer" },
-  { src: "/images/real_beverages.jpg", alt: "Signature Lotus Biscoff caramel shake on marble table", caption: "Signature Biscoff Shake" },
-  { src: "/images/real_mocktails.jpg", alt: "Layered mocktails and specialty coolers in stem glasses", caption: "Craft Mocktails & Coolers" },
-  { src: "/images/real_ambiance.jpg",  alt: "Cafora House ambient evening interior with chandelier and velvet seating", caption: "Cozy Evening Ambiance" },
-  { src: "/images/real_daylight.jpg",  alt: "Sunlit dining area with green velvet armchairs and wide street view", caption: "Daylight Dining Area" },
+  { src: "/images/real_hero.jpg",        alt: "Cafora House espresso bar and cafe interior with marble tables and velvet chairs", caption: "Artisan Coffee Bar & Lounge" },
+  { src: "/images/real_coffee.jpg",      alt: "Authentic latte art in ceramic cup on marble table with fresh flower vase", caption: "Handcrafted Latte Art" },
+  { src: "/images/real_chinese.jpg",     alt: "Steamed dimsums in authentic bamboo basket with spicy dipping sauce", caption: "Steamed Dimsums in Bamboo Steamer" },
+  { src: "/images/real_continental.jpg", alt: "Silken creamy white sauce penne pasta with garlic toast and black olives", caption: "Silken White Sauce Pasta" },
+  { src: "/images/real_beverages.jpg",   alt: "Signature Lotus Biscoff caramel shake on marble table", caption: "Signature Biscoff Shake" },
+  { src: "/images/real_mocktails.jpg",   alt: "Layered craft mocktails and specialty coolers in stem glasses", caption: "Craft Mocktails & Coolers" },
+  { src: "/images/real_ambiance.jpg",    alt: "Cafora House ambient evening interior with chandelier and velvet seating", caption: "Cozy Evening Ambiance" },
+  { src: "/images/real_daylight.jpg",    alt: "Sunlit dining area with green velvet armchairs and wide street view", caption: "Daylight Dining Area" },
 ];
 
 // ============================================================
@@ -202,6 +203,18 @@ export const highlights = [
     title: "Premium Ambiance",
     description: "A beautifully designed interior with warm lighting for every occasion.",
   },
+];
+
+// ============================================================
+// AMENITIES — Verified on-site facilities
+// ============================================================
+export const amenities = [
+  { icon: "☕", label: "Artisan Coffee Bar" },
+  { icon: "📶", label: "High-Speed Wi-Fi" },
+  { icon: "❄️", label: "Full Air Conditioning" },
+  { icon: "🛵", label: "Takeaway & Delivery" },
+  { icon: "🎓", label: "Opposite Amity University" },
+  { icon: "✨", label: "Cozy Velvet Seating" },
 ];
 
 // ============================================================

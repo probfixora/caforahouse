@@ -1,33 +1,53 @@
 "use client";
 
 import Image from "next/image";
-import { business, settings } from "@/config/business";
+import { business } from "@/config/business";
 
 export default function HeroSection() {
+  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault();
+    const el = document.getElementById(id);
+    if (el) {
+      const navOffset = 70;
+      const elementPosition = el.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({
+        top: elementPosition - navOffset,
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
     <section
       id="hero"
       aria-label="Welcome to Cafora House"
       style={{
         position:   "relative",
+        width:      "100%",
         minHeight:  "100svh",
         display:    "flex",
         alignItems: "center",
         overflow:   "hidden",
+        margin:     0,
+        padding:    0,
       }}
     >
-      {/* Hero Background Image */}
+      {/* ── Background Image with Refined Editorial Grading ── */}
       <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
         <Image
           src="/images/real_hero.jpg"
           alt="Cafora House authentic cafe interior and espresso bar with amber pendant lights, green velvet seating, and marble tables"
           fill
           priority
-          quality={90}
-          style={{ objectFit: "cover", objectPosition: "center 40%" }}
+          quality={92}
+          style={{
+            objectFit:      "cover",
+            objectPosition: "center 42%",
+          }}
           sizes="100vw"
         />
-        {/* Gradient overlay — dark at top for nav, fades to darker at bottom for text */}
+
+        {/* Sophisticated dual gradient overlay: preserves ambient warmth while guaranteeing readability */}
         <div
           style={{
             position:   "absolute",
@@ -35,233 +55,245 @@ export default function HeroSection() {
             background: `
               linear-gradient(
                 to bottom,
-                rgba(26,15,8,0.55) 0%,
-                rgba(26,15,8,0.30) 40%,
-                rgba(26,15,8,0.65) 75%,
-                rgba(26,15,8,0.85) 100%
+                rgba(26, 15, 8, 0.72) 0%,
+                rgba(26, 15, 8, 0.45) 30%,
+                rgba(26, 15, 8, 0.68) 70%,
+                rgba(26, 15, 8, 0.92) 100%
               )
             `,
           }}
         />
-        {/* Subtle warm vignette */}
+
+        {/* Subtle radial vignette to focus attention on the content */}
         <div
           style={{
             position:   "absolute",
             inset:      0,
-            background: "radial-gradient(ellipse at center, transparent 40%, rgba(44,24,16,0.5) 100%)",
+            background: "radial-gradient(circle at center, transparent 35%, rgba(20, 10, 5, 0.55) 100%)",
           }}
         />
       </div>
 
-      {/* Content */}
+      {/* ── Hero Content ── */}
       <div
         className="container-max"
         style={{
           position:    "relative",
           zIndex:      1,
-          padding:     "8rem 1.5rem 5rem",
+          padding:     "clamp(4.75rem, 8.5vh, 6.25rem) 1.5rem clamp(1.25rem, 3vh, 2.25rem)",
           width:       "100%",
-          maxWidth:    "900px",
+          maxWidth:    "860px",
+          margin:      "0 auto",
         }}
       >
-        {/* Category Badge */}
+        {/* Verified Rating Pill */}
         <div
           className="animate-fade-up"
           style={{
             display:         "inline-flex",
             alignItems:      "center",
             gap:             "0.5rem",
-            backgroundColor: "rgba(200,135,42,0.18)",
-            border:          "1px solid rgba(200,135,42,0.45)",
-            backdropFilter:  "blur(8px)",
+            backgroundColor: "rgba(200, 135, 42, 0.22)",
+            border:          "1px solid rgba(255, 208, 133, 0.45)",
+            backdropFilter:  "blur(10px)",
+            WebkitBackdropFilter: "blur(10px)",
             borderRadius:    "999px",
-            padding:         "0.4rem 1rem",
-            marginBottom:    "1.5rem",
+            padding:         "0.3rem 0.9rem",
+            marginBottom:    "1rem",
           }}
         >
-          <span style={{ fontSize: "0.7rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "#FFD085", fontWeight: 600 }}>
-            ⭐ {business.rating} · {business.reviewCount} Reviews · Cafe
+          <span
+            style={{
+              fontSize:      "0.75rem",
+              letterSpacing: "0.12em",
+              textTransform: "uppercase",
+              color:         "#FFD085",
+              fontWeight:    700,
+              fontFamily:    "var(--font-body)",
+              display:       "inline-flex",
+              alignItems:    "center",
+              gap:           "0.35rem",
+            }}
+          >
+            <span>★</span> {business.rating} Rating · {business.reviewCount}+ Verified Reviews · Opposite Amity
           </span>
         </div>
 
-        {/* Main Headline */}
+        {/* Cafe Name */}
         <h1
           className="animate-fade-up delay-100"
           style={{
-            fontFamily:  "var(--font-display)",
-            fontWeight:  700,
-            fontSize:    "clamp(2.8rem, 7vw, 5.5rem)",
-            lineHeight:  1.05,
-            color:       "#FAF6EF",
-            marginBottom: "0.5rem",
-            textShadow:  "0 2px 16px rgba(0,0,0,0.4)",
+            fontFamily:    "var(--font-display)",
+            fontWeight:    700,
+            fontSize:      "clamp(2.5rem, 5.8vw, 4.4rem)",
+            lineHeight:    1.05,
+            color:         "#FAF6EF",
+            marginBottom:  "0.4rem",
+            letterSpacing: "-0.015em",
+            textShadow:    "0 2px 20px rgba(0,0,0,0.5)",
           }}
         >
           {business.name}
         </h1>
 
-        {/* Taglines */}
+        {/* Compelling Headline */}
         <p
           className="animate-fade-up delay-200"
           style={{
             fontFamily:   "var(--font-display)",
             fontStyle:    "italic",
-            fontSize:     "clamp(1.15rem, 2.5vw, 1.65rem)",
+            fontSize:     "clamp(1.1rem, 2.1vw, 1.5rem)",
             color:        "#FFD085",
-            marginBottom: "0.25rem",
-            textShadow:   "0 1px 8px rgba(0,0,0,0.4)",
+            marginBottom: "0.85rem",
+            lineHeight:   1.3,
+            textShadow:   "0 1px 10px rgba(0,0,0,0.4)",
           }}
         >
-          {business.tagline}
+          {business.tagline} {business.subTagline}
         </p>
+
+        {/* Short, Natural Description of Cuisine & Atmosphere */}
         <p
           className="animate-fade-up delay-300"
           style={{
-            fontFamily:   "var(--font-display)",
-            fontStyle:    "italic",
-            fontSize:     "clamp(1rem, 2vw, 1.4rem)",
-            color:        "rgba(255,208,133,0.8)",
-            marginBottom: "1.75rem",
-            textShadow:   "0 1px 8px rgba(0,0,0,0.4)",
+            fontSize:     "clamp(0.925rem, 1.3vw, 1.05rem)",
+            lineHeight:   1.6,
+            color:        "rgba(250, 246, 239, 0.9)",
+            maxWidth:     "680px",
+            marginBottom: "1.5rem",
+            textShadow:   "0 1px 6px rgba(0,0,0,0.5)",
           }}
         >
-          {business.subTagline}
+          Lucknow’s welcoming cafe retreat opposite Amity University — where artisan coffee meets authentic Chinese wok dishes and comforting Continental plates in an intimate, velvet-seated lounge.
         </p>
 
-        {/* Cuisine tags */}
-        <div
-          className="animate-fade-up delay-300"
-          style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", marginBottom: "2.5rem" }}
-        >
-          {business.cuisines.map((c) => (
-            <span
-              key={c}
-              style={{
-                backgroundColor: "rgba(250,246,239,0.12)",
-                border:          "1px solid rgba(250,246,239,0.25)",
-                backdropFilter:  "blur(4px)",
-                color:           "rgba(250,246,239,0.9)",
-                borderRadius:    "999px",
-                padding:         "0.25rem 0.875rem",
-                fontSize:        "0.8125rem",
-                fontWeight:      500,
-              }}
-            >
-              {c}
-            </span>
-          ))}
-        </div>
-
-        {/* CTA Buttons */}
+        {/* ── Primary & Secondary CTAs ── */}
         <div
           className="animate-fade-up delay-400"
-          style={{ display: "flex", gap: "1rem", flexWrap: "wrap", alignItems: "center" }}
+          style={{
+            display:     "flex",
+            gap:         "1rem",
+            flexWrap:    "wrap",
+            alignItems:  "center",
+            marginBottom: "1.75rem",
+          }}
         >
-          {settings.showOrderOnline && (
-            <a
-              href={business.contact.orderOnline}
-              target="_blank"
-              rel="noopener noreferrer"
-              id="hero-order-btn"
-              style={{
-                display:         "inline-flex",
-                alignItems:      "center",
-                gap:             "0.5rem",
-                backgroundColor: "var(--color-secondary)",
-                color:           "#fff",
-                fontWeight:      700,
-                fontSize:        "0.9375rem",
-                padding:         "1rem 2.25rem",
-                borderRadius:    "999px",
-                textDecoration:  "none",
-                border:          "2px solid var(--color-secondary)",
-                transition:      "all 0.3s ease",
-                boxShadow:       "0 4px 20px rgba(200,135,42,0.4)",
-              }}
-              onMouseEnter={e => {
-                (e.currentTarget as HTMLAnchorElement).style.backgroundColor = "#D4A843";
-                (e.currentTarget as HTMLAnchorElement).style.borderColor = "#D4A843";
-                (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-2px)";
-              }}
-              onMouseLeave={e => {
-                (e.currentTarget as HTMLAnchorElement).style.backgroundColor = "var(--color-secondary)";
-                (e.currentTarget as HTMLAnchorElement).style.borderColor = "var(--color-secondary)";
-                (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(0)";
-              }}
-            >
-              🍽️ Order Online
-            </a>
-          )}
+          {/* Primary CTA: "Explore Our Menu" */}
           <a
-            href={business.contact.directionsUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            id="hero-directions-btn"
+            href="#menu"
+            id="hero-explore-menu-btn"
+            onClick={(e) => scrollToSection(e, "menu")}
+            style={{
+              display:         "inline-flex",
+              alignItems:      "center",
+              gap:             "0.6rem",
+              backgroundColor: "var(--color-secondary)",
+              color:           "#FAF6EF",
+              fontWeight:      700,
+              fontSize:        "0.95rem",
+              padding:         "0.875rem 2rem",
+              borderRadius:    "999px",
+              textDecoration:  "none",
+              border:          "2px solid var(--color-secondary)",
+              transition:      "all 0.25s ease",
+              boxShadow:       "0 6px 24px rgba(200, 135, 42, 0.4)",
+              cursor:          "pointer",
+            }}
+            onMouseEnter={(e) => {
+              const el = e.currentTarget as HTMLAnchorElement;
+              el.style.backgroundColor = "var(--color-gold)";
+              el.style.borderColor = "var(--color-gold)";
+              el.style.transform = "translateY(-2px)";
+              el.style.boxShadow = "0 8px 30px rgba(212, 168, 67, 0.5)";
+            }}
+            onMouseLeave={(e) => {
+              const el = e.currentTarget as HTMLAnchorElement;
+              el.style.backgroundColor = "var(--color-secondary)";
+              el.style.borderColor = "var(--color-secondary)";
+              el.style.transform = "translateY(0)";
+              el.style.boxShadow = "0 6px 24px rgba(200, 135, 42, 0.4)";
+            }}
+          >
+            <span>🍽️</span> Explore Our Menu
+          </a>
+
+          {/* Secondary CTA: "Find Us" */}
+          <a
+            href="#location"
+            id="hero-find-us-btn"
+            onClick={(e) => scrollToSection(e, "location")}
             style={{
               display:         "inline-flex",
               alignItems:      "center",
               gap:             "0.5rem",
-              backgroundColor: "rgba(250,246,239,0.12)",
+              backgroundColor: "rgba(250, 246, 239, 0.12)",
               color:           "#FAF6EF",
               fontWeight:      600,
-              fontSize:        "0.9375rem",
-              padding:         "1rem 2rem",
+              fontSize:        "0.95rem",
+              padding:         "0.875rem 1.85rem",
               borderRadius:    "999px",
               textDecoration:  "none",
-              border:          "2px solid rgba(250,246,239,0.4)",
+              border:          "1.5px solid rgba(250, 246, 239, 0.45)",
               backdropFilter:  "blur(8px)",
-              transition:      "all 0.3s ease",
+              WebkitBackdropFilter: "blur(8px)",
+              transition:      "all 0.25s ease",
+              cursor:          "pointer",
             }}
-            onMouseEnter={e => {
-              (e.currentTarget as HTMLAnchorElement).style.backgroundColor = "rgba(250,246,239,0.25)";
-              (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-2px)";
+            onMouseEnter={(e) => {
+              const el = e.currentTarget as HTMLAnchorElement;
+              el.style.backgroundColor = "rgba(250, 246, 239, 0.24)";
+              el.style.borderColor = "#FAF6EF";
+              el.style.transform = "translateY(-2px)";
             }}
-            onMouseLeave={e => {
-              (e.currentTarget as HTMLAnchorElement).style.backgroundColor = "rgba(250,246,239,0.12)";
-              (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(0)";
+            onMouseLeave={(e) => {
+              const el = e.currentTarget as HTMLAnchorElement;
+              el.style.backgroundColor = "rgba(250, 246, 239, 0.12)";
+              el.style.borderColor = "rgba(250, 246, 239, 0.45)";
+              el.style.transform = "translateY(0)";
             }}
           >
-            📍 Get Directions
+            <span>📍</span> Find Us
           </a>
         </div>
 
-        {/* Location pill */}
+        {/* ── Key Highlights Ribbon (Compact) ── */}
         <div
           className="animate-fade-up delay-500"
           style={{
-            marginTop:  "2.5rem",
-            display:    "inline-flex",
-            alignItems: "center",
-            gap:        "0.5rem",
-            color:      "rgba(250,246,239,0.65)",
-            fontSize:   "0.875rem",
+            display:     "flex",
+            alignItems:  "center",
+            gap:         "0.75rem",
+            flexWrap:    "wrap",
+            paddingTop:  "0.5rem",
+            borderTop:   "1px solid rgba(250, 246, 239, 0.15)",
           }}
         >
-          <span>📍</span>
-          <span>{business.address.landmark}, {business.address.city}</span>
+          {[
+            { icon: "☕", label: "Artisan Coffee" },
+            { icon: "🥢", label: "Authentic Chinese" },
+            { icon: "🍽️", label: "Classic Continental" },
+            { icon: "🕒", label: "Open Daily 10:45 AM – 10:30 PM" },
+          ].map((pill) => (
+            <div
+              key={pill.label}
+              style={{
+                display:         "inline-flex",
+                alignItems:      "center",
+                gap:             "0.4rem",
+                color:           "rgba(250, 246, 239, 0.8)",
+                fontSize:        "0.8125rem",
+                fontWeight:      500,
+                backgroundColor: "rgba(26, 15, 8, 0.4)",
+                padding:         "0.25rem 0.65rem",
+                borderRadius:    "6px",
+                border:          "1px solid rgba(250, 246, 239, 0.1)",
+              }}
+            >
+              <span>{pill.icon}</span>
+              <span>{pill.label}</span>
+            </div>
+          ))}
         </div>
-      </div>
-
-      {/* Scroll indicator */}
-      <div
-        aria-hidden="true"
-        style={{
-          position:       "absolute",
-          bottom:         "2rem",
-          left:           "50%",
-          transform:      "translateX(-50%)",
-          display:        "flex",
-          flexDirection:  "column",
-          alignItems:     "center",
-          gap:            "0.375rem",
-          animation:      "fadeIn 1s ease 1s both",
-          zIndex:         1,
-        }}
-      >
-        <span style={{ fontSize: "0.7rem", letterSpacing: "0.15em", color: "rgba(250,246,239,0.5)", textTransform: "uppercase" }}>
-          Scroll
-        </span>
-        <div style={{ width: "1px", height: "40px", background: "linear-gradient(to bottom, rgba(250,246,239,0.5), transparent)" }} />
       </div>
     </section>
   );

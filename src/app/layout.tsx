@@ -3,8 +3,12 @@ import "./globals.css";
 import { business, branding } from "@/config/business";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://caforahouse.com"),
   title: `${business.name} | ${business.tagline} ${business.subTagline}`,
   description: `${business.description} Located ${business.address.landmark}, ${business.address.city}. ${business.rating}⭐ rated by ${business.reviewCount}+ happy guests.`,
+  alternates: {
+    canonical: "/",
+  },
   keywords: [
     "Cafora House",
     "cafe Lucknow",
@@ -23,13 +27,13 @@ export const metadata: Metadata = {
     title: `${business.name} — ${business.tagline}`,
     description: business.description,
     siteName: business.name,
-    images: [{ url: "/images/hero.jpg", width: 1400, height: 788, alt: `${business.name} interior` }],
+    images: [{ url: "/images/real_hero.jpg", width: 1600, height: 1200, alt: `${business.name} interior` }],
   },
   twitter: {
     card: "summary_large_image",
     title: `${business.name} — ${business.tagline}`,
     description: business.description,
-    images: ["/images/hero.jpg"],
+    images: ["/images/real_hero.jpg"],
   },
   icons: {
     icon: "/favicon.ico",
@@ -80,7 +84,11 @@ export default function RootLayout({
               },
               geo: {
                 "@type": "GeoCoordinates",
+                latitude: 26.852579,
+                longitude: 81.0509179,
               },
+              telephone: business.contact.phone,
+              priceRange: "₹₹",
               aggregateRating: {
                 "@type": "AggregateRating",
                 ratingValue: business.rating,
